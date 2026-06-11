@@ -39,7 +39,9 @@ export default async function EditPostPage({
 
   return (
     <div>
-      <h1 className="text-xl font-semibold text-zinc-100 mb-8">글 수정</h1>
+      <h1 className="text-xl font-semibold text-[var(--foreground)] mb-8">
+        글 수정
+      </h1>
       <EditPostForm
         postId={id}
         initialValues={initialValues}

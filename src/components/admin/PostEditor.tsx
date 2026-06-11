@@ -229,7 +229,7 @@ export function PostEditor({
           <button
             type="button"
             onClick={() => setPreview((p) => !p)}
-            className="font-mono text-xs text-zinc-500 hover:text-zinc-300 transition-colors"
+            className="font-mono text-xs text-[var(--muted)] hover:text-[var(--foreground)] transition-colors"
           >
             {preview ? "편집" : "미리보기"}
           </button>
