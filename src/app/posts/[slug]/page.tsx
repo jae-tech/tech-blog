@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { TagBadge } from "@/components/blog/TagBadge";
 import { ArticleJsonLd } from "@/components/seo/JsonLd";
@@ -24,7 +25,6 @@ export async function generateStaticParams() {
     const slugs = await getPublishedPostSlugs();
     return slugs.map((slug) => ({ slug }));
   } catch {
-    // 빌드 환경에서 Supabase 접근 불가 시 빈 배열 — dynamicParams=true로 런타임 생성
     return [];
   }
 }
@@ -42,7 +42,7 @@ export default async function PostPage({ params }: Props) {
   if (!post) notFound();
 
   return (
-    <main className="mx-auto w-full max-w-3xl px-6 py-16">
+    <main className="mx-auto w-full max-w-[672px] px-6 py-20">
       <ArticleJsonLd
         title={post.title}
         description={post.meta_description ?? post.excerpt ?? ""}
@@ -51,39 +51,50 @@ export default async function PostPage({ params }: Props) {
         updatedAt={post.updated_at}
         imageUrl={post.thumbnail_url}
       />
+
       <article>
-        <header className="mb-10">
+        {/* Header */}
+        <header className="mb-12 pt-10">
           {post.category && (
-            <a
+            <Link
               href={`/categories/${post.category.slug}`}
-              className="mb-3 inline-block text-xs font-semibold uppercase tracking-wider text-blue-600 dark:text-blue-400"
+              className="mb-4 inline-block font-mono text-[0.6875rem] uppercase tracking-widest text-[var(--accent)] transition-colors duration-150 hover:text-[var(--accent)]/80"
             >
               {post.category.name}
-            </a>
+            </Link>
           )}
 
-          <h1 className="text-3xl font-bold leading-tight tracking-tight text-zinc-900 dark:text-zinc-50">
+          <h1 className="text-[2rem] font-semibold leading-tight tracking-tight text-[var(--foreground)]">
             {post.title}
           </h1>
 
-          {post.published_at && (
-            <time
-              dateTime={post.published_at}
-              className="mt-3 block text-sm text-zinc-400 dark:text-zinc-500"
-            >
-              {formatDate(post.published_at)}
-            </time>
-          )}
+          <div className="mt-4 flex flex-wrap items-center gap-3">
+            {post.published_at && (
+              <time
+                dateTime={post.published_at}
+                className="font-mono text-[0.75rem] text-[var(--muted)]"
+              >
+                {formatDate(post.published_at)}
+              </time>
+            )}
 
-          {post.tags.length > 0 && (
-            <div className="mt-4 flex flex-wrap gap-2">
-              {post.tags.map((tag) => (
-                <TagBadge key={tag.slug} name={tag.name} slug={tag.slug} />
-              ))}
-            </div>
-          )}
+            {post.tags.length > 0 && (
+              <>
+                <span className="text-[var(--border)]">·</span>
+                <div className="flex flex-wrap gap-1.5">
+                  {post.tags.map((tag) => (
+                    <TagBadge key={tag.slug} name={tag.name} slug={tag.slug} />
+                  ))}
+                </div>
+              </>
+            )}
+          </div>
+
+          {/* Divider */}
+          <div className="mt-6 h-px w-full bg-[var(--border)]" />
         </header>
 
+        {/* Body */}
         {post.content && (
           <MarkdownRenderer
             content={post.content}
@@ -91,6 +102,16 @@ export default async function PostPage({ params }: Props) {
           />
         )}
       </article>
+
+      {/* Back link */}
+      <div className="mt-16 pt-8 border-t border-[var(--border)]">
+        <Link
+          href="/posts"
+          className="text-sm text-[var(--muted)] transition-colors duration-150 hover:text-[var(--accent)]"
+        >
+          ← 글 목록으로
+        </Link>
+      </div>
     </main>
   );
 }
