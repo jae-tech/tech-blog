@@ -9,9 +9,9 @@ export function TagBadge({ name, slug }: TagBadgeProps) {
   return (
     <Link
       href={`/tags/${slug}`}
-      className="inline-block rounded-full bg-zinc-100 px-3 py-1 text-xs font-medium text-zinc-600 transition-colors hover:bg-zinc-200 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-700"
+      className="inline-block rounded-full border border-[var(--border)] bg-[var(--surface)] px-2.5 py-0.5 font-mono text-[0.75rem] text-[var(--muted)] transition-colors duration-150 hover:border-[var(--accent)] hover:text-[var(--accent)]"
     >
-      {name}
+      #{name}
     </Link>
   );
 }

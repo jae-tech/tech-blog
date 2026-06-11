@@ -28,20 +28,22 @@ export default async function CategoryPage({ params }: Props) {
   const posts = await getPublishedPosts({ categorySlug: slug });
 
   return (
-    <main className="mx-auto w-full max-w-3xl px-6 py-16">
-      <h1 className="mb-2 text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50">
+    <main className="mx-auto w-full max-w-[672px] px-6 py-20">
+      <h1 className="mb-1 text-[2rem] font-semibold tracking-tight text-[var(--foreground)]">
         {category.name}
       </h1>
       {category.description && (
-        <p className="mb-8 text-sm text-zinc-500 dark:text-zinc-400">
+        <p className="mb-10 text-sm text-[var(--muted)]">
           {category.description}
         </p>
       )}
 
       {posts.length === 0 ? (
-        <p className="text-zinc-400">이 카테고리의 글이 없습니다.</p>
+        <p className="text-[var(--muted)] text-sm">
+          이 카테고리의 글이 없습니다.
+        </p>
       ) : (
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col">
           {posts.map((post) => (
             <PostCard key={post.id} post={post} />
           ))}
