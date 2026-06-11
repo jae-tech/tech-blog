@@ -108,14 +108,14 @@ export function PostEditor({
   });
 
   const inputCls =
-    "w-full bg-zinc-900 border border-zinc-800 text-zinc-100 px-3 py-2 rounded-lg text-sm focus:outline-none focus:border-orange-500 transition-colors placeholder:text-zinc-600";
+    "w-full bg-[var(--surface)] border border-[var(--border)] text-[var(--foreground)] px-3 py-2 rounded-lg text-sm focus:outline-none focus:border-[var(--accent)] transition-colors placeholder:text-[var(--muted)]";
   const labelCls =
-    "block font-mono text-xs text-zinc-500 uppercase tracking-wider mb-1.5";
+    "block font-mono text-xs text-[var(--muted)] uppercase tracking-wider mb-1.5";
 
   return (
     <div className="flex flex-col gap-6">
       {error && (
-        <div className="bg-red-950 border border-red-800 text-red-400 px-4 py-3 rounded-lg text-sm">
+        <div className="bg-[color-mix(in_srgb,var(--destructive)_10%,transparent)] border border-[var(--destructive)] text-[var(--destructive)] px-4 py-3 rounded-lg text-sm">
           {error}
         </div>
       )}
@@ -194,7 +194,7 @@ export function PostEditor({
           <button
             type="button"
             onClick={addTag}
-            className="px-3 py-2 bg-zinc-800 text-zinc-300 rounded-lg text-sm hover:bg-zinc-700 transition-colors"
+            className="px-3 py-2 bg-[var(--surface-2)] text-[var(--foreground)] rounded-lg text-sm hover:bg-[var(--border)] transition-colors"
           >
             추가
           </button>
@@ -204,13 +204,13 @@ export function PostEditor({
             {tagSlugs.map((t) => (
               <span
                 key={t}
-                className="inline-flex items-center gap-1.5 bg-zinc-800 text-zinc-300 font-mono text-xs px-2.5 py-1 rounded-full"
+                className="inline-flex items-center gap-1.5 bg-[var(--surface-2)] text-[var(--foreground)] font-mono text-xs px-2.5 py-1 rounded-full border border-[var(--border)]"
               >
                 #{t}
                 <button
                   type="button"
                   onClick={() => removeTag(t)}
-                  className="text-zinc-500 hover:text-zinc-200 transition-colors leading-none"
+                  className="text-[var(--muted)] hover:text-[var(--foreground)] transition-colors leading-none"
                 >
                   ×
                 </button>
@@ -235,14 +235,14 @@ export function PostEditor({
           </button>
         </div>
         {preview ? (
-          <div className="min-h-[400px] bg-zinc-900 border border-zinc-800 rounded-lg p-4">
+          <div className="min-h-[400px] bg-[var(--surface)] border border-[var(--border)] rounded-lg p-4">
             {content ? (
               <MarkdownRenderer
                 content={content}
                 className="prose prose-invert prose-zinc max-w-none"
               />
             ) : (
-              <p className="text-zinc-600 text-sm">내용이 없습니다.</p>
+              <p className="text-[var(--muted)] text-sm">내용이 없습니다.</p>
             )}
           </div>
         ) : (
@@ -273,13 +273,13 @@ export function PostEditor({
 
       {/* SEO */}
       <details className="group">
-        <summary className="cursor-pointer font-mono text-xs text-zinc-500 uppercase tracking-wider select-none list-none flex items-center gap-2">
+        <summary className="cursor-pointer font-mono text-xs text-[var(--muted)] uppercase tracking-wider select-none list-none flex items-center gap-2">
           <span className="group-open:rotate-90 transition-transform inline-block">
             ▶
           </span>
           SEO 메타데이터
         </summary>
-        <div className="mt-4 flex flex-col gap-4 pl-4 border-l border-zinc-800">
+        <div className="mt-4 flex flex-col gap-4 pl-4 border-l border-[var(--border)]">
           <div>
             <label htmlFor="field-meta-title" className={labelCls}>
               Meta Title
@@ -293,7 +293,7 @@ export function PostEditor({
               placeholder={title || "페이지 제목 (기본: 글 제목)"}
               maxLength={70}
             />
-            <p className="font-mono text-xs text-zinc-600 mt-1">
+            <p className="font-mono text-xs text-[var(--muted)] mt-1">
               {metaTitle.length}/70
             </p>
           </div>
@@ -310,7 +310,7 @@ export function PostEditor({
               placeholder="검색 결과에 표시될 설명 (기본: 발췌)"
               maxLength={160}
             />
-            <p className="font-mono text-xs text-zinc-600 mt-1">
+            <p className="font-mono text-xs text-[var(--muted)] mt-1">
               {metaDescription.length}/160
             </p>
           </div>
@@ -318,12 +318,12 @@ export function PostEditor({
       </details>
 
       {/* 액션 버튼 */}
-      <div className="flex items-center gap-3 pt-2 border-t border-zinc-800">
+      <div className="flex items-center gap-3 pt-2 border-t border-[var(--border)]">
         <button
           type="button"
           disabled={saving}
           onClick={() => onSave(getValues(), "draft")}
-          className="px-4 py-2 bg-zinc-800 text-zinc-200 text-sm font-medium rounded-lg hover:bg-zinc-700 transition-colors disabled:opacity-50"
+          className="px-4 py-2 bg-[var(--surface-2)] text-[var(--foreground)] text-sm font-medium rounded-lg hover:bg-[var(--border)] transition-colors disabled:opacity-50"
         >
           {saving ? "저장 중..." : "초안 저장"}
         </button>
@@ -331,7 +331,7 @@ export function PostEditor({
           type="button"
           disabled={saving}
           onClick={() => onSave(getValues(), "published")}
-          className="px-4 py-2 bg-orange-500 text-zinc-950 text-sm font-medium rounded-lg hover:bg-orange-400 transition-colors disabled:opacity-50"
+          className="px-4 py-2 bg-[var(--accent)] text-[var(--background)] text-sm font-medium rounded-lg hover:opacity-90 transition-opacity disabled:opacity-50"
         >
           {saving ? "저장 중..." : "발행"}
         </button>

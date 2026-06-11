@@ -6,13 +6,13 @@
 
 /* ─── Design Tokens (DESIGN.md) ─────────────────────────────── */
 :root {
-  /* Colors */
-  --background: #0e0e10;
-  --surface: #17171a;
-  --surface-2: #1f1f24;
-  --border: #2a2a30;
-  --foreground: #f0eee8;
-  --muted: #6b6a72;
+  /* Colors — light mode default */
+  --background: #fafaf9;
+  --surface: #f4f4f0;
+  --surface-2: #eaeae4;
+  --border: #d4d4cc;
+  --foreground: #1a1a1c;
+  --muted: #888880;
   --accent: #f97316;
 
   /* Semantic */
@@ -21,7 +21,7 @@
   --destructive: #f87171;
   --info: #60a5fa;
 
-  /* shadcn token mapping (dark-first) */
+  /* shadcn token mapping */
   --card: var(--surface);
   --card-foreground: var(--foreground);
   --popover: var(--surface);
@@ -41,16 +41,17 @@
   /* Fonts */
   --font-sans: "Pretendard Variable", "Pretendard", -apple-system, sans-serif;
   --font-mono: "JetBrains Mono", "Fira Code", monospace;
+  --font-serif: "Instrument Serif", Georgia, serif;
 }
 
-/* Light mode override */
-[data-theme="light"] {
-  --background: #fafaf9;
-  --surface: #f4f4f0;
-  --surface-2: #eaeae4;
-  --border: #d4d4cc;
-  --foreground: #1a1a1c;
-  --muted: #888880;
+/* Dark mode override */
+[data-theme="dark"] {
+  --background: #0e0e10;
+  --surface: #17171a;
+  --surface-2: #1f1f24;
+  --border: #2a2a30;
+  --foreground: #f0eee8;
+  --muted: #6b6a72;
 }
 
 /* ─── Tailwind v4 theme bridge ───────────────────────────────── */
@@ -93,7 +94,7 @@
   }
 
   html {
-    color-scheme: dark;
+    color-scheme: light;
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;

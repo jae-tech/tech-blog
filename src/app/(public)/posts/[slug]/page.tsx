@@ -64,7 +64,10 @@ export default async function PostPage({ params }: Props) {
             </Link>
           )}
 
-          <h1 className="text-[2rem] font-semibold leading-tight tracking-tight text-[var(--foreground)]">
+          <h1
+            className="text-[clamp(1.75rem,4vw,2.5rem)] font-normal leading-tight tracking-tight text-[var(--foreground)]"
+            style={{ fontFamily: "var(--font-serif)" }}
+          >
             {post.title}
           </h1>
 

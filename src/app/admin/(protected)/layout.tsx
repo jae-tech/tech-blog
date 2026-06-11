@@ -16,37 +16,37 @@ export default async function ProtectedAdminLayout({
   }
 
   return (
-    <div className="min-h-screen bg-zinc-950 text-zinc-100">
-      <header className="border-b border-zinc-800 px-6 py-4 flex items-center justify-between">
+    <div className="min-h-screen bg-[var(--background)] text-[var(--foreground)]">
+      <header className="border-b border-[var(--border)] px-6 py-4 flex items-center justify-between">
         <a
           href="/admin/posts"
-          className="font-mono text-sm text-zinc-400 hover:text-zinc-100 transition-colors"
+          className="font-mono text-sm text-[var(--muted)] hover:text-[var(--foreground)] transition-colors"
         >
           admin
         </a>
         <nav className="flex items-center gap-6">
           <a
             href="/admin/posts"
-            className="text-sm text-zinc-400 hover:text-zinc-100 transition-colors"
+            className="text-sm text-[var(--muted)] hover:text-[var(--foreground)] transition-colors"
           >
             글 목록
           </a>
           <a
             href="/admin/posts/new"
-            className="text-sm text-zinc-400 hover:text-zinc-100 transition-colors"
+            className="text-sm text-[var(--muted)] hover:text-[var(--foreground)] transition-colors"
           >
             새 글
           </a>
           <a
             href="/"
-            className="text-sm text-zinc-400 hover:text-zinc-100 transition-colors"
+            className="text-sm text-[var(--muted)] hover:text-[var(--foreground)] transition-colors"
           >
             블로그 보기 →
           </a>
           <form action="/api/admin/logout" method="POST">
             <button
               type="submit"
-              className="text-sm text-zinc-500 hover:text-zinc-300 transition-colors"
+              className="text-sm text-[var(--muted)] hover:text-[var(--foreground)] transition-colors"
             >
               로그아웃
             </button>

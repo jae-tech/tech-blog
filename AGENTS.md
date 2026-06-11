@@ -55,7 +55,6 @@ src/
 - Do not call the OCI LLM server directly from the browser.
 - Do not implement AI features until Phase 4 is explicitly started.
 - Do not add WYSIWYG editors — use textarea + preview in admin.
-- Do not force E2E tests before Phase 6.
 
 ## Rules
 

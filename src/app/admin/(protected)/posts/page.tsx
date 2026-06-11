@@ -9,9 +9,9 @@ const STATUS_LABEL: Record<string, string> = {
 };
 
 const STATUS_COLOR: Record<string, string> = {
-  published: "text-green-400",
-  draft: "text-zinc-500",
-  archived: "text-zinc-600",
+  published: "text-[var(--success)]",
+  draft: "text-[var(--muted)]",
+  archived: "text-[var(--muted)]",
 };
 
 export default async function AdminPostsPage() {
@@ -20,19 +20,21 @@ export default async function AdminPostsPage() {
   return (
     <div>
       <div className="flex items-center justify-between mb-8">
-        <h1 className="text-xl font-semibold text-zinc-100">글 목록</h1>
+        <h1 className="text-xl font-semibold text-[var(--foreground)]">
+          글 목록
+        </h1>
         <Link
           href="/admin/posts/new"
-          className="bg-orange-500 text-zinc-950 text-sm font-medium px-4 py-2 rounded-lg hover:bg-orange-400 transition-colors"
+          className="bg-[var(--accent)] text-[var(--background)] text-sm font-medium px-4 py-2 rounded-lg hover:opacity-90 transition-opacity"
         >
           새 글 작성
         </Link>
       </div>
 
       {posts.length === 0 ? (
-        <p className="text-zinc-500 text-sm">작성된 글이 없습니다.</p>
+        <p className="text-[var(--muted)] text-sm">작성된 글이 없습니다.</p>
       ) : (
-        <div className="flex flex-col divide-y divide-zinc-800">
+        <div className="flex flex-col divide-y divide-[var(--border)]">
           {posts.map((post) => (
             <div
               key={post.id}
@@ -41,11 +43,11 @@ export default async function AdminPostsPage() {
               <div className="flex flex-col gap-1 min-w-0">
                 <Link
                   href={`/admin/posts/${post.id}/edit`}
-                  className="text-zinc-100 hover:text-orange-400 transition-colors truncate text-sm font-medium"
+                  className="text-[var(--foreground)] hover:text-[var(--accent)] transition-colors truncate text-sm font-medium"
                 >
                   {post.title}
                 </Link>
-                <div className="flex items-center gap-3 font-mono text-xs text-zinc-500">
+                <div className="flex items-center gap-3 font-mono text-xs text-[var(--muted)]">
                   <span className={STATUS_COLOR[post.status]}>
                     {STATUS_LABEL[post.status] ?? post.status}
                   </span>
@@ -58,14 +60,14 @@ export default async function AdminPostsPage() {
                   <Link
                     href={`/posts/${post.slug}`}
                     target="_blank"
-                    className="font-mono text-xs text-zinc-500 hover:text-zinc-300 transition-colors"
+                    className="font-mono text-xs text-[var(--muted)] hover:text-[var(--foreground)] transition-colors"
                   >
                     보기 →
                   </Link>
                 )}
                 <Link
                   href={`/admin/posts/${post.id}/edit`}
-                  className="font-mono text-xs text-zinc-500 hover:text-zinc-300 transition-colors"
+                  className="font-mono text-xs text-[var(--muted)] hover:text-[var(--foreground)] transition-colors"
                 >
                   수정
                 </Link>
