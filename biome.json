@@ -14,7 +14,9 @@
       "!dist",
       "!build",
       "!.omc",
-      "!.claude"
+      "!.claude",
+      "!playwright-report",
+      "!test-results"
     ]
   },
   "css": {
@@ -38,6 +40,9 @@
       "recommended": true,
       "suspicious": {
         "noUnknownAtRules": "off"
+      },
+      "complexity": {
+        "noImportantStyles": "off"
       }
     },
     "domains": {
