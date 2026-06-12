@@ -4,14 +4,18 @@ test.describe("공개 페이지 — nav 존재 확인", () => {
   test("홈: nav 있고 어드민 헤더 없음", async ({ page }) => {
     await page.goto("/");
     await expect(page.getByRole("link", { name: "jae.tech" })).toBeVisible();
-    await expect(page.getByRole("link", { name: "글" })).toBeVisible();
-    await expect(page.getByRole("link", { name: "태그" })).toBeVisible();
-    await expect(page.getByText("admin")).not.toBeVisible();
+    // nav 안의 글/태그 링크 확인 (header 범위로 한정)
+    const header = page.locator("header");
+    await expect(header.getByRole("link", { name: "글", exact: true })).toBeVisible();
+    await expect(header.getByRole("link", { name: "태그", exact: true })).toBeVisible();
+    // 어드민 nav가 없어야 함 (header 안에 "admin" 링크 없음)
+    await expect(header.getByRole("link", { name: "admin" })).toHaveCount(0);
   });
 
   test("홈 → 글 목록 링크 클릭", async ({ page }) => {
     await page.goto("/");
-    await page.getByRole("link", { name: "글" }).click();
+    // nav header 안의 글 링크만 클릭
+    await page.locator("header").getByRole("link", { name: "글", exact: true }).click();
     await expect(page).toHaveURL("/posts");
     await expect(page.getByRole("link", { name: "jae.tech" })).toBeVisible();
   });

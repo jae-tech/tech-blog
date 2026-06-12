@@ -30,7 +30,11 @@ export function EditPostForm({
       const res = await fetch(`/api/admin/posts/${postId}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...values, status }),
+        body: JSON.stringify({
+          ...values,
+          status,
+          category_id: values.category_id || null,
+        }),
       });
       if (!res.ok) {
         const body = await res.json().catch(() => ({}));

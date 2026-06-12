@@ -23,7 +23,11 @@ export function NewPostForm({ categories, allTags }: NewPostFormProps) {
       const res = await fetch("/api/admin/posts", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...values, status }),
+        body: JSON.stringify({
+          ...values,
+          status,
+          category_id: values.category_id || null,
+        }),
       });
       if (!res.ok) {
         const body = await res.json().catch(() => ({}));
