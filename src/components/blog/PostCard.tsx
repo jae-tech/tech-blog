@@ -13,10 +13,7 @@ export function PostCard({ post }: PostCardProps) {
         href={`/posts/${post.slug}`}
         className="flex items-baseline justify-between gap-6"
       >
-        <span
-          className="text-[var(--foreground)] text-[1.125rem] font-normal leading-snug transition-colors duration-150 group-hover:text-[var(--accent)]"
-          style={{ fontFamily: "var(--font-serif)" }}
-        >
+        <span className="text-[var(--foreground)] text-[1.125rem] font-medium leading-snug transition-colors duration-150 group-hover:text-[var(--accent)]">
           {post.title}
         </span>
         {post.published_at && (

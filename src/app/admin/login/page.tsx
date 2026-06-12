@@ -32,15 +32,13 @@ export default function AdminLoginPage() {
   return (
     <div className="min-h-screen bg-[var(--background)] flex items-center justify-center px-4">
       <div className="w-full max-w-sm">
-        <h1 className="font-mono text-lg text-[var(--muted)] mb-8 text-center">
-          admin
-        </h1>
+        <h1 className="text-lg text-[var(--muted)] mb-8 text-center">admin</h1>
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <div className="flex flex-col gap-1.5">
             <label
               htmlFor="email"
-              className="font-mono text-xs text-[var(--muted)] uppercase tracking-wider"
+              className="text-xs text-[var(--muted)] uppercase tracking-wider"
             >
               이메일
             </label>
@@ -59,7 +57,7 @@ export default function AdminLoginPage() {
           <div className="flex flex-col gap-1.5">
             <label
               htmlFor="password"
-              className="font-mono text-xs text-[var(--muted)] uppercase tracking-wider"
+              className="text-xs text-[var(--muted)] uppercase tracking-wider"
             >
               비밀번호
             </label>
@@ -76,9 +74,7 @@ export default function AdminLoginPage() {
           </div>
 
           {error && (
-            <p className="text-[var(--destructive)] text-sm font-mono">
-              {error}
-            </p>
+            <p className="text-[var(--destructive)] text-sm">{error}</p>
           )}
 
           <button

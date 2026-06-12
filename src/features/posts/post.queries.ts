@@ -16,11 +16,14 @@ const POST_DETAIL_SELECT = `
 ` as const;
 
 interface TagJoin {
-  tag: { name: string; slug: string }[];
+  tag: { name: string; slug: string } | { name: string; slug: string }[] | null;
 }
 
 interface TagDetailJoin {
-  tag: { id: string; name: string; slug: string; created_at: string }[];
+  tag:
+    | { id: string; name: string; slug: string; created_at: string }
+    | { id: string; name: string; slug: string; created_at: string }[]
+    | null;
 }
 
 export async function getPublishedPosts(options?: {
@@ -118,6 +121,11 @@ interface RawPostDetail extends Post {
   tags: TagDetailJoin[];
 }
 
+function pickFirst<T>(val: T | T[] | null | undefined): T | null {
+  if (!val) return null;
+  return Array.isArray(val) ? (val[0] ?? null) : val;
+}
+
 // Supabase join 응답의 중첩 구조를 평탄화
 function normalizePostListItem(raw: RawPostListItem): PostListItem {
   return {
@@ -127,9 +135,9 @@ function normalizePostListItem(raw: RawPostListItem): PostListItem {
     excerpt: raw.excerpt,
     thumbnail_url: raw.thumbnail_url,
     published_at: raw.published_at,
-    category: raw.category?.[0] ?? null,
+    category: pickFirst(raw.category),
     tags: raw.tags
-      .map((t) => t.tag[0])
+      .map((t) => pickFirst(t.tag))
       .filter((t): t is NonNullable<typeof t> => t !== null),
   };
 }
@@ -137,9 +145,9 @@ function normalizePostListItem(raw: RawPostListItem): PostListItem {
 function normalizePostWithRelations(raw: RawPostDetail): PostWithRelations {
   return {
     ...raw,
-    category: raw.category?.[0] ?? null,
+    category: pickFirst(raw.category),
     tags: raw.tags
-      .map((t) => t.tag[0])
+      .map((t) => pickFirst(t.tag))
       .filter((t): t is NonNullable<typeof t> => t !== null),
   };
 }

@@ -58,11 +58,11 @@ Do not deviate without explicit user approval.
 
 Key rules:
 - Font: Pretendard (all text) + JetBrains Mono (code only)
-- Background: `#0e0e10`, Accent: `#f97316` (amber — use sparingly)
+- Theme: system-following light/dark token sets; restrained amber accent
 - Max content width: 672px, left-aligned, single column
 - Post list: title + date text only — no card grids
-- Dark mode is the default; light mode via `data-theme` attribute on `<html>`
-- No decorative elements beyond subtle code-grid background texture
+- Theme styling uses CSS tokens and `prefers-color-scheme` only; no toggle or `data-theme`
+- Decorative grid texture and reading progress are deferred
 - Motion: color transitions only (150ms), no scroll animations
 
 ## Constraints (never violate)

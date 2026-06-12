@@ -13,12 +13,24 @@ export default defineConfig({
   },
   projects: [
     {
-      name: "chromium",
-      use: { ...devices["Desktop Chrome"] },
+      name: "desktop-light",
+      use: { ...devices["Desktop Chrome"], colorScheme: "light" },
+    },
+    {
+      name: "desktop-dark",
+      use: { ...devices["Desktop Chrome"], colorScheme: "dark" },
+    },
+    {
+      name: "mobile-light",
+      use: { ...devices["Pixel 7"], colorScheme: "light" },
+    },
+    {
+      name: "mobile-dark",
+      use: { ...devices["Pixel 7"], colorScheme: "dark" },
     },
   ],
   webServer: {
-    command: "pnpm dev",
+    command: "corepack pnpm dev",
     url: "http://localhost:3001",
     reuseExistingServer: !process.env.CI,
     timeout: 120_000,

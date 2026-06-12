@@ -40,3 +40,104 @@ test.describe("어드민 로그인 페이지 UI", () => {
     await expect(page).toHaveURL(/login/);
   });
 });
+
+test.describe("인증된 어드민 작성 경험", () => {
+  test.skip(
+    !process.env.E2E_ADMIN_EMAIL || !process.env.E2E_ADMIN_PASSWORD,
+    "E2E_ADMIN_EMAIL/E2E_ADMIN_PASSWORD가 없어 인증된 어드민 검증을 건너뜁니다. 수동 검증 필요.",
+  );
+
+  test.beforeEach(async ({ page }) => {
+    await page.goto("/admin/login");
+    await page.getByLabel(/이메일/i).fill(process.env.E2E_ADMIN_EMAIL ?? "");
+    await page
+      .getByLabel(/비밀번호/i)
+      .fill(process.env.E2E_ADMIN_PASSWORD ?? "");
+    await page.getByRole("button", { name: /로그인/i }).click();
+    await page.waitForURL(/\/admin\/posts/);
+  });
+
+  test("새 글 editor 상태와 반응형 preview 계약", async ({ page }) => {
+    await page.goto("/admin/posts/new");
+    const editor = page.locator("[data-editor-state]");
+    await expect(editor).toHaveAttribute("data-editor-state", "clean-unsaved");
+
+    await page.getByLabel("제목").fill("E2E draft");
+    await expect(editor).toHaveAttribute("data-editor-state", "dirty");
+
+    const content = page.getByLabel("본문 (Markdown)");
+    if (page.viewportSize() && (page.viewportSize()?.width ?? 0) >= 1024) {
+      await expect(content).toBeVisible();
+      await expect(page.getByText("내용이 없습니다.")).toBeVisible();
+    } else {
+      await expect(content).toBeVisible();
+      await page.getByRole("button", { name: "미리보기" }).click();
+      await expect(page.getByText("내용이 없습니다.")).toBeVisible();
+    }
+  });
+
+  test("새 글 저장 중 입력을 잠그고 실패를 보존한 뒤 retry/publish를 허용", async ({
+    page,
+  }) => {
+    let releaseRequest: (() => void) | undefined;
+    const requestReleased = new Promise<void>((resolve) => {
+      releaseRequest = resolve;
+    });
+    const statuses: string[] = [];
+    await page.route("/api/admin/posts", async (route) => {
+      const body = route.request().postDataJSON() as { status: string };
+      statuses.push(body.status);
+      await requestReleased;
+      await route.fulfill({
+        status: 500,
+        contentType: "application/json",
+        body: JSON.stringify({ error: "의도된 E2E 저장 실패" }),
+      });
+    });
+    await page.goto("/admin/posts/new");
+    const editor = page.locator("[data-editor-state]");
+    await page.getByLabel("제목").fill("실패 상태 검증");
+    await page.getByRole("button", { name: "초안 저장" }).click();
+    await expect(editor).toHaveAttribute("data-editor-state", "saving");
+    await expect(page.getByLabel("제목")).toBeDisabled();
+    releaseRequest?.();
+    await expect(editor).toHaveAttribute("data-editor-state", "error");
+    await expect(page.getByText("의도된 E2E 저장 실패")).toBeVisible();
+
+    await page.getByLabel("제목").fill("다시 편집");
+    await expect(editor).toHaveAttribute("data-editor-state", "dirty");
+    await page.getByRole("button", { name: "발행" }).click();
+    await expect(editor).toHaveAttribute("data-editor-state", "error");
+    expect(statuses).toEqual(["draft", "published"]);
+  });
+
+  test("편집 중 저장 실패는 최신 편집과 함께 오류를 보존", async ({ page }) => {
+    let rejectRequest: (() => void) | undefined;
+    const requestRejected = new Promise<void>((resolve) => {
+      rejectRequest = resolve;
+    });
+    await page.route("/api/admin/posts/**", async (route) => {
+      await requestRejected;
+      await route.fulfill({
+        status: 500,
+        contentType: "application/json",
+        body: JSON.stringify({ error: "편집 중 저장 실패" }),
+      });
+    });
+
+    await page.goto("/admin/posts");
+    const editLink = page.getByRole("link", { name: "수정" }).first();
+    test.skip((await editLink.count()) === 0, "편집할 기존 글이 없습니다.");
+    await editLink.click();
+
+    const editor = page.locator("[data-editor-state]");
+    await expect(editor).toHaveAttribute("data-editor-state", "clean-saved");
+    await page.getByLabel("제목").fill("저장 요청 이전 제목");
+    await page.getByRole("button", { name: "초안 저장" }).click();
+    await expect(editor).toHaveAttribute("data-editor-state", "saving");
+    await page.getByLabel("제목").fill("저장 요청 이후 제목");
+    rejectRequest?.();
+    await expect(editor).toHaveAttribute("data-editor-state", "error");
+    await expect(page.getByText("편집 중 저장 실패")).toBeVisible();
+  });
+});

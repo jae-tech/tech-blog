@@ -12,7 +12,11 @@ export default async function HomePage() {
   const posts = await getPublishedPosts({ limit: 6 });
 
   return (
-    <main className="mx-auto w-full max-w-[672px] px-6 py-16">
+    <main
+      id="main-content"
+      tabIndex={-1}
+      className="mx-auto w-full max-w-[672px] px-6 py-16"
+    >
       {/* Hero */}
       <section className="mb-14">
         <h1 className="text-[2rem] font-semibold tracking-tight text-[var(--foreground)]">

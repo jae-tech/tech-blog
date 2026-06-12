@@ -42,7 +42,11 @@ export default async function PostPage({ params }: Props) {
   if (!post) notFound();
 
   return (
-    <main className="mx-auto w-full max-w-[672px] px-6 py-20">
+    <main
+      id="main-content"
+      tabIndex={-1}
+      className="mx-auto w-full max-w-[672px] px-6 py-20"
+    >
       <ArticleJsonLd
         title={post.title}
         description={post.meta_description ?? post.excerpt ?? ""}
@@ -64,10 +68,7 @@ export default async function PostPage({ params }: Props) {
             </Link>
           )}
 
-          <h1
-            className="text-[clamp(1.75rem,4vw,2.5rem)] font-normal leading-tight tracking-tight text-[var(--foreground)]"
-            style={{ fontFamily: "var(--font-serif)" }}
-          >
+          <h1 className="text-[clamp(1.75rem,4vw,2.5rem)] font-semibold leading-tight tracking-tight text-[var(--foreground)]">
             {post.title}
           </h1>
 
@@ -101,7 +102,7 @@ export default async function PostPage({ params }: Props) {
         {post.content && (
           <MarkdownRenderer
             content={post.content}
-            className="prose prose-zinc max-w-none dark:prose-invert"
+            className="prose max-w-none"
           />
         )}
       </article>
