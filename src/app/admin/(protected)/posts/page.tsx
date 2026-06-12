@@ -60,14 +60,15 @@ export default async function AdminPostsPage() {
                   <Link
                     href={`/posts/${post.slug}`}
                     target="_blank"
-                    className="font-mono text-xs text-[var(--muted)] hover:text-[var(--foreground)] transition-colors"
+                    rel="noopener noreferrer"
+                    className="text-xs text-[var(--muted)] hover:text-[var(--foreground)] transition-colors"
                   >
                     보기 →
                   </Link>
                 )}
                 <Link
                   href={`/admin/posts/${post.id}/edit`}
-                  className="font-mono text-xs text-[var(--muted)] hover:text-[var(--foreground)] transition-colors"
+                  className="text-xs text-[var(--muted)] hover:text-[var(--foreground)] transition-colors"
                 >
                   수정
                 </Link>

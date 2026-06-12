@@ -1,4 +1,5 @@
 import { redirect } from "next/navigation";
+import { AdminNav } from "@/components/admin/AdminNav";
 import { createClient } from "@/lib/supabase/server";
 
 export default async function ProtectedAdminLayout({
@@ -17,26 +18,15 @@ export default async function ProtectedAdminLayout({
 
   return (
     <div className="min-h-screen bg-[var(--background)] text-[var(--foreground)]">
-      <header className="border-b border-[var(--border)] px-6 py-4 flex items-center justify-between">
+      <header className="flex flex-wrap items-center justify-between gap-4 border-b border-[var(--border)] px-6 py-4">
         <a
           href="/admin/posts"
-          className="font-mono text-sm text-[var(--muted)] hover:text-[var(--foreground)] transition-colors"
+          className="text-sm font-medium text-[var(--muted)] transition-colors hover:text-[var(--foreground)]"
         >
           admin
         </a>
-        <nav className="flex items-center gap-6">
-          <a
-            href="/admin/posts"
-            className="text-sm text-[var(--muted)] hover:text-[var(--foreground)] transition-colors"
-          >
-            글 목록
-          </a>
-          <a
-            href="/admin/posts/new"
-            className="text-sm text-[var(--muted)] hover:text-[var(--foreground)] transition-colors"
-          >
-            새 글
-          </a>
+        <div className="flex flex-wrap items-center gap-4 sm:gap-6">
+          <AdminNav />
           <a
             href="/"
             className="text-sm text-[var(--muted)] hover:text-[var(--foreground)] transition-colors"
@@ -51,7 +41,7 @@ export default async function ProtectedAdminLayout({
               로그아웃
             </button>
           </form>
-        </nav>
+        </div>
       </header>
       <main className="px-6 py-8 max-w-5xl mx-auto">{children}</main>
     </div>

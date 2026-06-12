@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { PublicNav } from "@/components/blog/PublicNav";
 
 export default function PublicLayout({
   children,
@@ -7,34 +7,15 @@ export default function PublicLayout({
 }) {
   return (
     <>
+      <a
+        href="#main-content"
+        className="fixed left-4 top-4 z-[100] -translate-y-24 rounded-md bg-[var(--foreground)] px-3 py-2 text-sm font-medium text-[var(--background)] transition-transform focus:translate-y-0"
+      >
+        본문으로 건너뛰기
+      </a>
       <header className="sticky top-0 z-50 border-b border-[var(--border)] bg-[var(--surface)]/80 backdrop-blur-sm">
         <div className="mx-auto flex w-full max-w-[672px] items-center justify-between px-6 py-4">
-          <Link
-            href="/"
-            className="text-[1.125rem] font-semibold tracking-tight text-[var(--foreground)] transition-colors duration-150 hover:text-[var(--accent)]"
-          >
-            jae.tech
-          </Link>
-          <nav>
-            <ul className="flex items-center gap-6 list-none">
-              <li>
-                <Link
-                  href="/posts"
-                  className="text-sm text-[var(--muted)] transition-colors duration-150 hover:text-[var(--foreground)]"
-                >
-                  글
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/tags"
-                  className="text-sm text-[var(--muted)] transition-colors duration-150 hover:text-[var(--foreground)]"
-                >
-                  태그
-                </Link>
-              </li>
-            </ul>
-          </nav>
+          <PublicNav />
         </div>
       </header>
       {children}

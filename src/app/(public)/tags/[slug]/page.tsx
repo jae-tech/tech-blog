@@ -28,7 +28,11 @@ export default async function TagPage({ params }: Props) {
   const posts = await getPublishedPosts({ tagSlug: slug });
 
   return (
-    <main className="mx-auto w-full max-w-[672px] px-6 py-20">
+    <main
+      id="main-content"
+      tabIndex={-1}
+      className="mx-auto w-full max-w-[672px] px-6 py-20"
+    >
       <h1 className="mb-10 text-[2rem] font-semibold tracking-tight text-[var(--foreground)]">
         #{tag.name}
       </h1>
